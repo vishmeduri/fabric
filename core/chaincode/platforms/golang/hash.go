@@ -67,6 +67,9 @@ func hashFilesInDir(rootDir string, dir string, hash []byte, tw *tar.Writer) ([]
 			return hash, err
 		}
 
+		if len(hash) > (int(^uint(0) >> 1) - len(buf)) {
+			return hash, errors.New("size computation for allocation may overflow")
+		}
 		newSlice := make([]byte, len(hash)+len(buf))
 		copy(newSlice[len(buf):], hash[:])
 		//hash = md5.Sum(newSlice)
