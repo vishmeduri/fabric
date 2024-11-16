@@ -112,7 +112,7 @@ func (t *ChaincodeExample) CheckBalance(stub *shim.ChaincodeStub, param *example
 	}
 
 	fmt.Printf("Query Response: %d\n", val)
-	return &example02.BalanceResult{Balance: *proto.Int32(int32(val))}, nil
+	return &example02.BalanceResult{Balance: *proto.Int32(val)}, nil
 }
 
 func main() {
@@ -144,6 +144,6 @@ func (t *ChaincodeExample) GetState(stub *shim.ChaincodeStub, entity string) (in
 		return 0, errors.New("Entity not found")
 	}
 
-	val, _ := strconv.Atoi(string(bytes))
-	return val, nil
+	val64, _ := strconv.ParseInt(string(bytes), 10, 32)
+	return int(val64), nil
 }
